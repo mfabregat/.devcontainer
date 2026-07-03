@@ -1,0 +1,56 @@
+services:
+  devcontainer_service:
+    image: ${WORKSPACE_NAME:-devcontainer}
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - USER=${USER}
+        - USER_UID=${USER_UID}
+        - USER_GID=${USER_GID}
+        - WORKSPACE_PATH=${WORKSPACE_PATH}
+    container_name: ${WORKSPACE_NAME:-devcontainer}
+
+    # --- ENVIRONMENT ---
+    environment:
+      - DISPLAY=${DISPLAY}
+      - XAUTHORITY=/home/${USER}/.Xauthority
+      - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
+      - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
+      - NVIDIA_DRIVER_CAPABILITIES=all
+
+    # --- VOLUMES & DEVICES ---
+    volumes:
+      - ${WORKSPACE_PATH}:${WORKSPACE_PATH}
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /run/user/${USER_UID}:/run/user/${USER_UID}
+      - ${XAUTHORITY}:/home/marc/.Xauthority:ro
+
+    # --- NETWORKING & IPC ---
+    network_mode: host
+    ipc: host
+    stdin_open: true
+    tty: true
+
+    # --- SECURITY / PRIVILEGES ---
+    privileged: true
+    security_opt:
+      - seccomp=unconfined
+    cap_add:
+      - SYS_PTRACE
+
+    # --- HARDWARE & RESOURCE LIMITS ---
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu, utility, compute]
+        # Uncomment to cap
+        # limits:
+        #   cpus: '8.0'
+        #   memory: 16G
+    
+    # Maximize Shared Memory 
+    shm_size: '8gb'

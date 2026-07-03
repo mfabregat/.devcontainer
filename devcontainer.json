@@ -1,0 +1,30 @@
+{
+    "name": "${workspaceFolderBasename}",
+    "remoteUser": "marc",
+    "dockerComposeFile": "./docker-compose.yaml",
+    "service": "devcontainer_service",
+    "workspaceFolder": "${localWorkspaceFolder}",
+    "initializeCommand": "bash .devcontainer/initialize.sh",
+    "containerEnv": {
+        "USER": "$remoteUser"
+    },
+    "forwardPorts": [],
+    "remoteEnv": {
+        "SSH_AUTH_SOCK": "${localEnv:SSH_AUTH_SOCK}"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "/bin/bash"
+                    }
+                }
+            },
+            "extensions": [
+                "ms-azuretools.vscode-docker" // Vital helper extension
+            ]
+        }
+    }
+}
