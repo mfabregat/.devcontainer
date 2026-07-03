@@ -1,5 +1,5 @@
 {
-    "name": "${workspaceFolderBasename}",
+    "name": "${localWorkspaceFolderBasename}",
     "remoteUser": "marc",
     "dockerComposeFile": "./docker-compose.yaml",
     "service": "devcontainer_service",
