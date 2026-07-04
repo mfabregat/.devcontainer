@@ -1,8 +1,9 @@
-FROM ubuntu:24.04
+FROM osrf/ros:jazzy-desktop-full
 
 ARG USER=marc
 ARG USER_UID=1000
 ARG USER_GID=1000
+ARG WORKSPACE_PATH=/workspace
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -26,6 +27,9 @@ RUN (userdel -r $(getent passwd ${USER_UID} | cut -d: -f1) 2>/dev/null || true) 
     chmod 0440 /etc/sudoers.d/${USER} && \
     usermod -aG sudo ${USER} 2>/dev/null || true && \
     touch /home/${USER}/.sudo_as_admin_successful # Silence the sudo warning
+
+RUN echo "if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then source /opt/ros/${ROS_DISTRO}/setup.bash; fi" >> /home/${USER}/.bashrc && \
+    echo "if [ -f ${WORKSPACE_PATH}/install/setup.bash ]; then source ${WORKSPACE_PATH}/install/setup.bash; fi" >> /home/${USER}/.bashrc
 
 USER ${USER}
 CMD [ "/bin/bash" ]
