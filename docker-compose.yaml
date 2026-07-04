@@ -31,7 +31,7 @@ services:
     ipc: host
     stdin_open: true
     tty: true
-    pid`: host
+    pid: host
 
     # --- SECURITY / PRIVILEGES ---
     privileged: true
