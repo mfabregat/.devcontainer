@@ -4,8 +4,9 @@ ARG USER=marc
 ARG USER_UID=1000
 ARG USER_GID=1000
 
-# Essential dependencies
 ENV DEBIAN_FRONTEND=noninteractive
+
+# Essential dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     sudo \
     curl \
