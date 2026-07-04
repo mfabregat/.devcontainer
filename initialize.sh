@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-# Fallback for Xauthority if the env variable isn't explicitly set on host
-XAUTH=${XAUTHORITY:-$HOME/.Xauthority}
+# Grant local container connections access to the X server
+xhost +si:localuser:$(id -un) > /dev/null 2>&1
 
 cat << EOF > .devcontainer/.env
 USER_UID=$(id -u)
 USER_GID=$(id -g)
 WORKSPACE_PATH=$(pwd)
 WORKSPACE_NAME=$(basename $(pwd))
-XAUTHORITY=${XAUTH}
 EOF

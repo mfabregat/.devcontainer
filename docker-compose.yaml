@@ -14,7 +14,6 @@ services:
     # --- ENVIRONMENT ---
     environment:
       - DISPLAY=${DISPLAY}
-      - XAUTHORITY=/home/${USER}/.Xauthority
       - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
       - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
       - NVIDIA_DRIVER_CAPABILITIES=all
@@ -23,8 +22,7 @@ services:
     volumes:
       - ${WORKSPACE_PATH}:${WORKSPACE_PATH}
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - /run/user/${USER_UID}:/run/user/${USER_UID}
-      - ${XAUTHORITY}:/home/marc/.Xauthority:ro
+      - ${XDG_RUNTIME_DIR:-/run/user/${USER_UID}}:${XDG_RUNTIME_DIR:-/run/user/${USER_UID}}
 
     # --- NETWORKING & IPC ---
     network_mode: host
@@ -52,6 +50,3 @@ services:
         # limits:
         #   cpus: '8.0'
         #   memory: 16G
-    
-    # Maximize Shared Memory 
-    shm_size: '8gb'
