@@ -26,8 +26,5 @@ RUN (userdel -r $(getent passwd ${USER_UID} | cut -d: -f1) 2>/dev/null || true) 
     usermod -aG sudo ${USER} 2>/dev/null || true && \
     touch /home/${USER}/.sudo_as_admin_successful # Silence the sudo warning
 
-# RUN echo "if [ -f /opt/ros/jazzy/setup.bash ]; then source /opt/ros/jazzy/setup.bash; fi" >> /home/${USER}/.bashrc && \
-#     echo "if [ -f /workspace/install/setup.bash ]; then source /workspace/install/setup.bash; fi" >> /home/${USER}/.bashrc
-
 USER ${USER}
 CMD [ "/bin/bash" ]
