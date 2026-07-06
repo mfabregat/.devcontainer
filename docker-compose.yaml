@@ -23,20 +23,12 @@ services:
       - ${WORKSPACE_PATH}:${WORKSPACE_PATH}
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${XDG_RUNTIME_DIR:-/run/user/${USER_UID}}:${XDG_RUNTIME_DIR:-/run/user/${USER_UID}}
-      # OpenCode
-      - /home/${USER}/.opencode:/home/${USER}/.opencode
-      # API keys
-      - /home/${USER}/.local/share/opencode:/home/${USER}/.local/share/opencode
-      - /home/${USER}/.local/state/opencode:/home/${USER}/.local/state/opencode
 
     # --- NETWORKING & IPC ---
     network_mode: host
     ipc: host
     stdin_open: true
     tty: true
-    # OpenCode server port
-    ports:
-      - "4096:4096"
 
     # --- SECURITY / PRIVILEGES ---
     privileged: true
