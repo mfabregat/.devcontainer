@@ -30,6 +30,11 @@ RUN (userdel -r $(getent passwd ${USER_UID} | cut -d: -f1) 2>/dev/null || true) 
     usermod -aG sudo ${USER} 2>/dev/null || true && \
     touch /home/${USER}/.sudo_as_admin_successful # Silence the sudo warning
 
+USER ${USER}
+
+# Install OpenCode
+RUN curl -fsSL https://opencode.ai/install | bash
+
 RUN echo "if [ -f /opt/ros/${ROS_DISTRO}/setup.bash ]; then source /opt/ros/${ROS_DISTRO}/setup.bash; fi" >> /home/${USER}/.bashrc && \
     echo "if [ -f ${WORKSPACE_PATH}/install/setup.bash ]; then source ${WORKSPACE_PATH}/install/setup.bash; fi" >> /home/${USER}/.bashrc
 

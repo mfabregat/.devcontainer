@@ -8,7 +8,6 @@
     "containerEnv": {
         "USER": "$remoteUser"
     },
-    "forwardPorts": [],
     "remoteEnv": {
         "SSH_AUTH_SOCK": "${localEnv:SSH_AUTH_SOCK}"
     },
@@ -33,5 +32,8 @@
                 "mhutchie.git-graph"
             ]
         }
-    }
+    },
+    // OpenCode server will be started in the background after the container starts
+    "postStartCommand": "nohup bash -c 'opencode serve --hostname 0.0.0.0 --port 4096 &' > /tmp/opencode_start.log 2>&1"
+    // Open with opencode attach http://localhost:4096
 }
