@@ -23,7 +23,14 @@
                 }
             },
             "extensions": [
-                "ms-azuretools.vscode-docker" // Vital helper extension
+                "ms-azuretools.vscode-docker",
+                "DavidAnson.vscode-markdownlint",
+                "ms-python.python",
+                "ms-vscode.cpptools",
+                "ms-azuretools.vscode-containers",
+                "ms-python.vscode-pylance",
+                "charliermarsh.ruff",
+                "mhutchie.git-graph"
             ]
         }
     }
