@@ -23,7 +23,7 @@
                 }
             },
             "extensions": [
-                "ms-azuretools.vscode-docker" // Vital helper extension
+                "ms-azuretools.vscode-docker"
             ]
         }
     }
