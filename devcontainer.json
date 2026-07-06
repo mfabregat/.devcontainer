@@ -1,26 +1,12 @@
 {
     "name": "${localWorkspaceFolderBasename}",
-    "remoteUser": "marc",
+    "remoteUser": "${localEnv:USER}",
     "dockerComposeFile": "./docker-compose.yaml",
     "service": "devcontainer_service",
     "workspaceFolder": "${localWorkspaceFolder}",
     "initializeCommand": "bash .devcontainer/initialize.sh",
-    "containerEnv": {
-        "USER": "$remoteUser"
-    },
-    "remoteEnv": {
-        "SSH_AUTH_SOCK": "${localEnv:SSH_AUTH_SOCK}"
-    },
     "customizations": {
         "vscode": {
-            "settings": {
-                "terminal.integrated.defaultProfile.linux": "bash",
-                "terminal.integrated.profiles.linux": {
-                    "bash": {
-                        "path": "/bin/bash"
-                    }
-                }
-            },
             "extensions": [
                 "ms-azuretools.vscode-docker",
                 "DavidAnson.vscode-markdownlint",
@@ -32,7 +18,14 @@
             ]
         }
     },
-    // OpenCode server will be started in the background after the container starts
+    // OpenCode
+    "forwardPorts": [
+        4096
+    ],
+    "mounts": [
+        "source=${localEnv:HOME}/.opencode,target=/home/${localUser}/.opencode,type=bind,consistency=cached", // config
+        "source=${localEnv:HOME}/.local/share/opencode,target=/home/${localUser}/.local/share/opencode,type=bind,consistency=cached" // API keys
+    ],
     "postStartCommand": "nohup bash -c 'opencode serve --hostname 0.0.0.0 --port 4096 &' > /tmp/opencode_start.log 2>&1"
     // Open with opencode attach http://localhost:4096
 }
