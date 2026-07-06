@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openssh-client \
     gpg \
     mesa-utils \
+    python3-pip \
+    python-is-python3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Remove user if exists and create the new user
