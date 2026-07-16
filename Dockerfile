@@ -25,12 +25,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN (userdel -r $(getent passwd ${USER_UID} | cut -d: -f1) 2>/dev/null || true) && \
     (groupdel $(getent group ${USER_GID} | cut -d: -f1) 2>/dev/null || true) && \
     groupadd -g ${USER_GID} "${USER}" && \
-    useradd -u ${USER_UID} -g ${USER_GID} -s /bin/bash \
+    useradd --no-log-init -l -u ${USER_UID} -g ${USER_GID} -s /bin/bash \
             -d "${HOME}" -m "${USER}" && \
     echo "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/devcontainer_user && \
     chmod 0440 /etc/sudoers.d/devcontainer_user && \
     usermod -aG sudo "${USER}" 2>/dev/null || true && \
-    touch /home/${USER}/.sudo_as_admin_successful # Silence the sudo warning
+    touch ${HOME}/.sudo_as_admin_successful # Silence the sudo warning
 
 USER ${USER}
 
