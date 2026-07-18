@@ -19,13 +19,10 @@
         }
     },
     // OpenCode
-    "forwardPorts": [
-        4096
-    ],
     "mounts": [
-        "source=${localEnv:HOME}/.opencode,target=/home/${localUser}/.opencode,type=bind,consistency=cached", // config
-        "source=${localEnv:HOME}/.local/share/opencode,target=/home/${localUser}/.local/share/opencode,type=bind,consistency=cached" // API keys
+        "source=${localEnv:HOME}/.config/opencode,target=${localEnv:HOME}/.config/opencode,type=bind,consistency=cached", // config
+        "source=${localEnv:HOME}/.local/share/opencode,target=${localEnv:HOME}/.local/share/opencode,type=bind,consistency=cached" // API keys
     ],
-    "postStartCommand": "nohup bash -c 'opencode serve --hostname 0.0.0.0 --port 4096 &' > /tmp/opencode_start.log 2>&1"
-    // Open with opencode attach http://localhost:4096
+    "postStartCommand": "nohup bash -c 'sudo chown -R $(id -u):$(id -g) ~/.local && opencode serve --hostname 0.0.0.0 --port 4096 &' > /tmp/opencode_start.log 2>&1"
+    // Open in host with: opencode attach http://localhost:4096
 }

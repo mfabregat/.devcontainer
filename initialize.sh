@@ -9,5 +9,4 @@ USER_UID=$(id -u)
 USER_GID=$(id -g)
 WORKSPACE_PATH=$(pwd)
 WORKSPACE_NAME=$(basename $(pwd))
-SSH_AUTH_SOCK=${SSH_AUTH_SOCK}
 EOF

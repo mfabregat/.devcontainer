@@ -2,12 +2,13 @@ services:
   devcontainer_service:
     image: ${WORKSPACE_NAME:-devcontainer}
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
       args:
         - USER=${USER}
         - USER_UID=${USER_UID}
         - USER_GID=${USER_GID}
+        - HOME=${HOME}
         - WORKSPACE_PATH=${WORKSPACE_PATH}
     container_name: ${WORKSPACE_NAME:-devcontainer}
 
@@ -45,7 +46,3 @@ services:
             - driver: nvidia
               count: all
               capabilities: [ gpu, utility, compute ]
-        # Uncomment to cap
-        # limits:
-        #   cpus: '8.0'
-        #   memory: 16G

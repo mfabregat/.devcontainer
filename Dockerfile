@@ -3,6 +3,8 @@ FROM ubuntu:24.04
 ARG USER=marc
 ARG USER_UID=1000
 ARG USER_GID=1000
+ARG HOME=/home/${USER}
+ARG WORKSPACE_PATH=${HOME}/Documents/code/workspace
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -22,12 +24,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Remove user if exists and create the new user
 RUN (userdel -r $(getent passwd ${USER_UID} | cut -d: -f1) 2>/dev/null || true) && \
     (groupdel $(getent group ${USER_GID} | cut -d: -f1) 2>/dev/null || true) && \
-    groupadd -g ${USER_GID} ${USER} && \
-    useradd -m -u ${USER_UID} -g ${USER_GID} -s /bin/bash ${USER} && \
-    echo "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USER} && \
-    chmod 0440 /etc/sudoers.d/${USER} && \
-    usermod -aG sudo ${USER} 2>/dev/null || true && \
-    touch /home/${USER}/.sudo_as_admin_successful # Silence the sudo warning
+    groupadd -g ${USER_GID} "${USER}" && \
+    useradd --no-log-init -l -u ${USER_UID} -g ${USER_GID} -s /bin/bash \
+            -d "${HOME}" -m "${USER}" && \
+    echo "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/devcontainer_user && \
+    chmod 0440 /etc/sudoers.d/devcontainer_user && \
+    usermod -aG sudo "${USER}" 2>/dev/null || true && \
+    touch ${HOME}/.sudo_as_admin_successful # Silence the sudo warning
 
 USER ${USER}
 
