@@ -18,12 +18,25 @@ services:
       - WAYLAND_DISPLAY=${WAYLAND_DISPLAY}
       - XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}
       - NVIDIA_DRIVER_CAPABILITIES=all
+      - ACCEPT_EULA=Y
+      - PRIVACY_CONSENT=Y
 
     # --- VOLUMES & DEVICES ---
     volumes:
       - ${WORKSPACE_PATH}:${WORKSPACE_PATH}
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${XDG_RUNTIME_DIR:-/run/user/${USER_UID}}:${XDG_RUNTIME_DIR:-/run/user/${USER_UID}}
+      # Isaac Sim persistent cache volumes
+      - isaac-cache-kit:/isaac-sim/kit/cache
+      - isaac-data-kit:/isaac-sim/kit/data
+      - isaac-cache-ov:/home/${USER}/.cache/ov
+      - isaac-cache-pip:/home/${USER}/.cache/pip
+      - isaac-cache-gl:/home/${USER}/.cache/nvidia/GLCache
+      - isaac-cache-compute:/home/${USER}/.nv/ComputeCache
+      - isaac-logs:/home/${USER}/.nvidia-omniverse/logs
+      - isaac-carb-logs:/isaac-sim/kit/logs/Kit/Isaac-Sim
+      - isaac-data:/home/${USER}/.local/share/ov/data
+      - isaac-docs:/home/${USER}/Documents
 
     # --- NETWORKING & IPC ---
     network_mode: host
@@ -46,3 +59,16 @@ services:
             - driver: nvidia
               count: all
               capabilities: [ gpu, utility, compute ]
+
+volumes:
+  # Isaac Sim
+  isaac-cache-kit:
+  isaac-data-kit:
+  isaac-cache-ov:
+  isaac-cache-pip:
+  isaac-cache-gl:
+  isaac-cache-compute:
+  isaac-logs:
+  isaac-carb-logs:
+  isaac-data:
+  isaac-docs:

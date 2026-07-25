@@ -5,6 +5,8 @@
     "service": "devcontainer_service",
     "workspaceFolder": "${localWorkspaceFolder}",
     "initializeCommand": "bash .devcontainer/initialize.sh",
+    // Create _isaac_sim symlink at runtime (host bind-mount hides the one baked in the image)
+    "postCreateCommand": "ln -sf /isaac-sim ${containerWorkspaceFolder}/IsaacLab/_isaac_sim",
     "customizations": {
         "vscode": {
             "extensions": [
