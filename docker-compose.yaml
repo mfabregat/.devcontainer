@@ -20,6 +20,8 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=all
       - ACCEPT_EULA=Y
       - PRIVACY_CONSENT=Y
+      # Disable the local OmniHub daemon (client retry spam when it can't launch)
+      - OMNICLIENT_HUB_MODE=disabled
 
     # --- VOLUMES & DEVICES ---
     volumes:
